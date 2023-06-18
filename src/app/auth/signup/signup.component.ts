@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatchPassword } from '../validators/math-password';
 import { UniqueUserName } from '../validators/unique-user-name';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +14,8 @@ export class SignupComponent {
   constructor(
     private matchPassword: MatchPassword,
     private uniqueUserName: UniqueUserName,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   authForm = new FormGroup(
@@ -56,7 +58,7 @@ export class SignupComponent {
       .subscribe({
         // use arrow function to get access to SignupComponent class "this"
         next: (response) => {
-          console.log(this);
+          this.router.navigateByUrl('/inbox');
         },
         error: (error) => {
           if (!error.status) {
