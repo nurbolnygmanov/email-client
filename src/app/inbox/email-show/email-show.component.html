@@ -1,0 +1,12 @@
+<div class="header">
+  <div>
+    <h3>{{ emailDetails.subject }}</h3>
+    <div>
+      From: <i>{{ emailDetails.from }}</i>
+    </div>
+    <div>
+      To: <i>{{ emailDetails.to }}</i>
+    </div>
+    <article [innerHTML]="emailDetails.html"></article>
+  </div>
+</div>

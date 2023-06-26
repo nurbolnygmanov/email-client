@@ -16,6 +16,10 @@ type SignupResponse = {
   username: string;
 };
 
+type SignInResponse = {
+  username: string;
+};
+
 type SignedInResponse = { authenticated: boolean; username: string };
 
 @Injectable({
@@ -24,6 +28,7 @@ type SignedInResponse = { authenticated: boolean; username: string };
 export class AuthService {
   private baseUrl = 'https://api.angular-email.com/auth';
   signedIn$ = new BehaviorSubject<boolean | null>(null);
+  username = '';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -40,8 +45,9 @@ export class AuthService {
     return this.httpClient
       .post<SignupResponse>(`${this.baseUrl}/signup`, credentials)
       .pipe(
-        tap(() => {
+        tap(({ username }) => {
           this.signedIn$.next(true);
+          this.username = username;
         })
       );
   }
@@ -50,8 +56,9 @@ export class AuthService {
     return this.httpClient
       .get<SignedInResponse>(`${this.baseUrl}/signedin`)
       .pipe(
-        tap(({ authenticated }) => {
+        tap(({ authenticated, username }) => {
           this.signedIn$.next(authenticated);
+          this.username = username;
         })
       );
   }
@@ -64,7 +71,12 @@ export class AuthService {
 
   signin(credentials: Omit<SignupCredentials, 'passwordConfirmation'>) {
     return this.httpClient
-      .post(`${this.baseUrl}/signin`, credentials)
-      .pipe(tap(() => this.signedIn$.next(true)));
+      .post<SignInResponse>(`${this.baseUrl}/signin`, credentials)
+      .pipe(
+        tap(({ username }) => {
+          this.signedIn$.next(true);
+          this.username = username;
+        })
+      );
   }
 }

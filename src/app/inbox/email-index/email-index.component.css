@@ -1,0 +1,27 @@
+a {
+  color: initial;
+}
+
+.activated {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: lightgrey;
+}
+
+a.activated:before {
+  content: ">";
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.content {
+  width: 90%;
+}
+
+.trim {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}

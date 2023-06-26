@@ -7,7 +7,8 @@ type ErrorSource =
   | 'nonUniqueUserName'
   | 'minlength'
   | 'maxlength'
-  | 'noConnection';
+  | 'noConnection'
+  | 'email';
 
 @Component({
   selector: 'app-input',
@@ -18,6 +19,7 @@ export class InputComponent {
   @Input() label!: string;
   @Input() control!: FormControl;
   @Input() inputType: string = 'text';
+  @Input() controlType: 'input' | 'textarea' = 'input';
 
   showErrors() {
     const { dirty, touched, errors } = this.control;
