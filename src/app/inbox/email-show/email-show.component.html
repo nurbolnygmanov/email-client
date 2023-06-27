@@ -8,5 +8,8 @@
       To: <i>{{ emailDetails.to }}</i>
     </div>
     <article [innerHTML]="emailDetails.html"></article>
+    <div>
+      <app-email-reply [email]="emailDetails"></app-email-reply>
+    </div>
   </div>
 </div>
