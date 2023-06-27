@@ -1,13 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EmailDetails } from '../email.service';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-type EmailForm = {
+export type EmailForm = {
   to: FormControl<string | null>;
   from: FormControl<string | null>;
   subject: FormControl<string | null>;
@@ -22,6 +17,7 @@ type EmailForm = {
 export class EmailFormComponent {
   emailForm!: FormGroup<EmailForm>;
   @Input() email!: EmailDetails;
+  @Output() emailSubmit = new EventEmitter();
 
   ngOnInit() {
     const { subject, from, to, text } = this.email;
@@ -32,5 +28,11 @@ export class EmailFormComponent {
       subject: new FormControl(subject, [Validators.required]),
       text: new FormControl(text, [Validators.required]),
     });
+  }
+
+  onSubmit() {
+    if (this.emailForm.invalid) return;
+
+    this.emailSubmit.emit(this.emailForm.value);
   }
 }

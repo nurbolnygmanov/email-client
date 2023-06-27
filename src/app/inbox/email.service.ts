@@ -31,4 +31,8 @@ export class EmailService {
   getEmail(id: Pick<EmailSummary, 'id'>) {
     return this.http.get<EmailDetails>(`${this.ROOT_URL}/emails/${id}`);
   }
+
+  sendEmail(email: EmailDetails) {
+    return this.http.post(`${this.ROOT_URL}/emails`, email);
+  }
 }
